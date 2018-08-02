@@ -92,7 +92,7 @@
 <script src="/smartWb/store/web/echarts/echarts.js"></script>
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('sales-amount'));
+    /*var myChart = echarts.init(document.getElementById('sales-amount'));
 
     // 指定图表的配置项和数据
     var date = $("#dateStr").val();
@@ -129,8 +129,5 @@
             option.series = msg.amount;
             myChart.setOption(option);
         }
-    });
-
-
-    
+    });*/
 </script>

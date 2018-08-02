@@ -17,7 +17,7 @@ use yii\helpers\Html;
         <div class="navbar-custom-menu" style="margin-right:300px;">
             <ul class="nav navbar-nav">        
                 <li>
-                    <a href="<?=Yii::$app->urlManager->createUrl(['site/index'])?>">首页</a>
+                    <a href="<?=Yii::$app->urlManager->createUrl(['order/index'])?>">首页</a>
                 </li>
                 <li>
                     <a href="<?=Yii::$app->urlManager->createUrl(['setting/change-password'])?>">修改密码</a>

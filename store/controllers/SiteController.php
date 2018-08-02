@@ -27,38 +27,6 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        $yesterday = strtotime("-1 day");
-        $today = strtotime("today")-1;
-        $lastmonth = strtotime(date('Y').'-'.date('m').'-01');
-        $now = time();
-        //昨日新增订单
-        $newOrderCnt = OrderRecord::find()->where("code is not null and createTime between {$yesterday} and {$today}")->count();
-        //昨日新增用户
-        $newUserCnt = Member::find()->where("createTime between {$yesterday} and {$today}")->count();
-        //本月订单量
-        $monthOrderCnt = OrderRecord::find()->where("createTime between {$lastmonth} and {$now} and code is not null")->count();
-        //本月销售额
-        $monthSalesAmount = OrderRecord::find()->select("sum(pay) as pay")->where("code is not null and createTime between {$lastmonth} and {$now} and payStatus=1 and cancelStatus=0 and closeStatus=0 and finishStatus=1")->asArray()->one();
-        $monthSalesAmount = $monthSalesAmount['pay']/100;
-        //echo $monthSalesAmount;exit;
-        
-//echo "<pre>";print_r($dateStr);exit;
-        //$amountArr = array_values($amountArr);
-        //echo "<pre>";print_r($monthSalesAmount);exit;
-        return $this->render('index', [
-            'newOrderCnt' => $newOrderCnt,
-            'newUserCnt' => $newUserCnt,
-            'monthOrderCnt' => $monthOrderCnt,
-            'monthSalesAmount' => $monthSalesAmount,
-        ]);
-    }
 
     public function actionGetSalesAmount()
     {
@@ -99,7 +67,7 @@ class SiteController extends Controller
     {
         //if (!\Yii::$app->user->isGuest)  
         if (Yii::$app->session['staff']['phone']) {
-            return $this->redirect(['site/index']);
+            return $this->redirect(['order/index']);
         }
   
         $model = new StaffLoginForm();//管理员登录表单  
