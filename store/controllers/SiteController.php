@@ -96,7 +96,7 @@ class SiteController extends Controller
                 } else {
                     throw new SmartException($response['msg']);
                 }
-                return $this->redirect(['site/index', 'closed'=>0]);
+                return $this->redirect(['order/index']);
             }
         }  
         //$this->layout = false; //不使用布局  
@@ -142,6 +142,11 @@ class SiteController extends Controller
         }
         //返回
         $this->goback();*/
+    }
+
+    public function actionIndex()
+    {
+        return $this->redirect(['order/index']);
     }
 
 }
