@@ -398,5 +398,49 @@ class ProductController extends BaseController
 		echo '<img src="'.$src.'">';
     }
 
+    //推荐热门商品
+    public function actionRecommendList()
+    {
+    	try {
+    		$model = new RecommendRecord();
+			$dataProvider = $model->search(Yii::$app->request->get());
+			$models = $dataProvider->getModels();
+			return $this->render('recommend-list', [
+				'dataProvider' => $dataProvider,
+				'models' => $models,
+				'page'=>$dataProvider->pagination,
+				'sort'=>$dataProvider->sort,  
+			]);
+		} catch (Exception $e) {
+			Yii::$app->session->setFlash('danger', $e->getMessage());
+            return $this->redirect(Yii::$app->request->referrer);
+		}
+    }
+
+    //推荐热门商品排序
+    public function actionRecommendSort()
+    {
+    	try {
+    		$id = Yii::$app->request->get('id');
+    		$sort = Yii::$app->request->get('sort');
+    		if (!$id) {
+    			throw new SmartException("id不能为空");
+    		}
+    		if (!$sort) {
+    			throw new SmartException("序号不能为空");
+    		}
+    		$model = RecommendRecord::find()->where("id={$id}")->one();
+    		//echo "<pre>";print_r($model);exit;
+    		$model->sort = $sort;
+    		if (!$model->save(false)) {
+    			throw new SmartException("操作失败");
+    		}
+			return $this->redirect(Yii::$app->request->referrer);
+		} catch (Exception $e) {
+			Yii::$app->session->setFlash('danger', $e->getMessage());
+            return $this->redirect(Yii::$app->request->referrer);
+		}
+    }
+
 
 }
