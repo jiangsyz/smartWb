@@ -5,6 +5,7 @@ use Yii;
 use yii\base\SmartException;
 use yii\db\SmartActiveRecord;
 use store\models\model\Source;
+use yii\data\SqlDataProvider;
 //========================================
 class RecommendRecord extends SmartActiveRecord{
 	const RECOMMEND_TYPE_RECOMMEND=1;//推荐
@@ -63,6 +64,50 @@ class RecommendRecord extends SmartActiveRecord{
 				$recommend->delete();
 			}
 		}
-
 	}
+
+	public function getSqlWhere($params)
+	{
+		$where = " where recommend_record.sourceType=1";
+		if ($params['recommendType']) {
+			$where .= " and recommendType={$params['recommendType']}";
+		}
+		return $where;
+	}
+
+	public function search($params)
+    {
+        $where = $this->getSqlWhere($params);
+        
+        $sql = "SELECT recommend_record.id, spu.uniqueId, spu.cover, spu.title, spu.createTime, spu.closed, spu.locked, recommend_record.sort
+                FROM `recommend_record`
+                LEFT JOIN `spu` ON spu.id=recommend_record.sourceId
+                {$where}
+                ORDER BY recommend_record.sort ASC";
+        //echo $sql;exit;
+        $count = Yii::$app->db->createCommand("select count(*) from ({$sql}) a")->queryScalar();
+        $dataProvider = new SqlDataProvider([
+            'sql' => $sql,
+            'totalCount' => $count,
+            'pagination' => [
+                'pageSize' => 50,
+            ],
+            'sort' => [
+                /*'attributes' => [
+                    'price' => [
+                        'desc' => ['price' => SORT_DESC],
+                        'asc' => ['price' => SORT_ASC],
+                        'default' => SORT_DESC,
+                    ],
+                    'count' => [
+                        'desc' => ['count' => SORT_DESC],
+                        'asc' => ['count' => SORT_ASC],
+                        'default' => SORT_DESC,  
+                    ]
+                ],*/
+            ],
+        ]);
+
+        return $dataProvider;
+    }
 }

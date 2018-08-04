@@ -50,6 +50,7 @@
                             ['label' => '商品发布', 'url' => ['/product/create'],],
                             ['label' => '出售中的商品', 'url' => ['/product/list','closed'=>0],],
                             ['label' => '仓库中的商品', 'url' => ['/product/list','closed'=>1],],
+                            ['label' => '推荐热门商品', 'url' => ['/product/recommend-list', 'recommendType'=>1],],
                         ],
                     ],
                     [
