@@ -409,7 +409,7 @@ class Order extends SmartActiveRecord
 
             //商品名称要重新根据编码库的商品名称生成
             $goods = Goods::find()->where("logistics_id={$params['Logistics']['id']}")->all();
-            $units = $sku_ids = $spu_ids = $spus = [];
+            $units = $sku_ids = $spu_ids = $spus = $codeBrand = [];
             foreach ($goods as $val) {
                 if ($params['Logistics']['id'] == 4) {
                     $units[$val->code] = $val->unit;
@@ -484,7 +484,7 @@ class Order extends SmartActiveRecord
                         if (empty($spu_title)) {
                             continue;
                         }
-                        $data5[$spu_title][] = ['', date('Y-m-d', time()), '', $spu_title . $sku['title'],
+                        $data5[$spu_title][] = ['', date('Y-m-d', time()), '', $codeBrand[$sku_uniqueId],
                             '', '', $parentOrder->id, $sku['title'], $parentOrder->getAddress('name'),
                             $parentOrder->getAddress('phone'), $parentOrder->getAddress('address'), $orderProduct['buyingCount'],
                             $orderProduct['memo'], '', '', '', $sku_uniqueId,
