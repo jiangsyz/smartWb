@@ -432,7 +432,7 @@ class Order extends SmartActiveRecord
                     if (empty($sku_uniqueId)) {
                         continue;
                     }
-                    if (!isset($codeBrand[$sku_uniqueId])) {
+                    if ($params['Logistics']['id'] != Logistics::ZTCK && !isset($codeBrand[$sku_uniqueId])) {
                         throw new \Exception($sku_uniqueId . "不在商品库编码内");
                     }
                     $parentOrder = OrderRecord::findOne(['id' => $orderProduct['orderId']]);
@@ -484,7 +484,8 @@ class Order extends SmartActiveRecord
                         if (empty($spu_title)) {
                             continue;
                         }
-                        $data5[$spu_title][] = ['', date('Y-m-d', time()), '', $codeBrand[$sku_uniqueId],
+                        $goods_title = ArrayHelper::getValue($codeBrand, $sku_uniqueId, $spu_title . $sku['title']);
+                        $data5[$spu_title][] = ['', date('Y-m-d', time()), '', $goods_title,
                             '', '', $parentOrder->id, $sku['title'], $parentOrder->getAddress('name'),
                             $parentOrder->getAddress('phone'), $parentOrder->getAddress('address'), $orderProduct['buyingCount'],
                             $orderProduct['memo'], '', '', '', $sku_uniqueId,
