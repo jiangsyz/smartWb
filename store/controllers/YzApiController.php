@@ -272,7 +272,7 @@ class YzApiController extends Controller
 				$response = $this->curl_get($url);
 				$response = json_decode($response, true);
 				if (isset($response['unionid'])) {
-					$sql = "update card set unionid='{$response['unionid']}' where yz_openid='{$user['yz_openid']}'";
+					$sql = "update youzan_card set unionid='{$response['unionid']}' where yz_openid='{$user['yz_openid']}'";
 					Yii::$app->db->createCommand($sql)->execute();
 				}
 			}

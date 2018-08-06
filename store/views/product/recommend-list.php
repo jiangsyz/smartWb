@@ -121,7 +121,7 @@ use yii\bootstrap\Modal;
                 </div>
                 <div class="modal-body">
                     <div class="form-group field-modal-text required">
-                        <input type="text" value="0" name="sort">
+                        <input type="text" value="" name="sort">
                     </div>
                     <div class="form-group">
                         <?= Html::submitButton('保存', ['class' => 'btn btn-primary']) ?>
@@ -140,6 +140,7 @@ use yii\bootstrap\Modal;
         var id = $(this).attr('data-id');
         var sort = $(this).attr('data-sort');
         $("#recommend-id").val(id);
+        $("input[name='sort']").val(sort);
         $("#common-modal").show();
     }); 
 
