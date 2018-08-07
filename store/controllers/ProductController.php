@@ -423,10 +423,10 @@ class ProductController extends BaseController
     	try {
     		$id = Yii::$app->request->get('id');
     		$sort = Yii::$app->request->get('sort');
-    		if (!$id) {
+    		if ($id == '') {
     			throw new SmartException("id不能为空");
     		}
-    		if (!$sort) {
+    		if ($sort == '') {
     			throw new SmartException("序号不能为空");
     		}
     		$model = RecommendRecord::find()->where("id={$id}")->one();
